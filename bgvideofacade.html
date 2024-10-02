@@ -1,0 +1,28 @@
+<div class="background-video"></div>
+    [[backgroundVideo? &video=`[[+video]]`]]
+    <iframe id="vimeoIframe1" src="about:blank" title="[[+title:default=`Ambient Video`]]" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+</div>
+
+<script>
+    function loadVimeoPlayerScriptDesktop() {
+        return new Promise((resolve, reject) => {
+            if (window.Vimeo) {
+                resolve();
+            } else {
+                const script = document.createElement('script');
+                script.src = 'https://player.vimeo.com/api/player.js';
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            }
+        });
+    }
+
+    loadVimeoPlayerScriptDesktop().then(() => {
+        const iframe = document.getElementById('vimeoIframe1');
+        const videoUrl = '[[+background_video]]?background=1';
+        iframe.src = videoUrl;
+    }).catch(error => {
+        console.error('Failed to load Vimeo Player API script:', error);
+    });
+</script>
