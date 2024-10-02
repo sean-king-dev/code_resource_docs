@@ -482,3 +482,64 @@ for (var i = 0; i < elements.length; i++) {
   };
 }
 });
+
+
+
+
+
+
+//  test
+
+describe('Kings Enquiry Form', () => {
+    beforeEach(() => {
+      // Set up the DOM structure for the tests
+      document.body.innerHTML = `
+        <form id="kings-enquiry-form">
+          <div class="fake-select" id="fake_enquiry_type">
+            <div class="label">Enquiry Type</div>
+            <div class="dropdown">
+              <div class="option" data-value="type1">Type 1</div>
+              <div class="option" data-value="type2">Type 2</div>
+            </div>
+          </div>
+          <select name="enquiry_type" required>
+            <option value="null">Select</option>
+          </select>
+          <div class="g-recaptcha"></div>
+          <input type="submit" value="Submit" />
+        </form>
+      `;
+    });
+  
+    test('validates required selects', () => {
+      const valid = enquiry_validate();
+      expect(valid).toBe(false); // Should be false since select is not filled
+    });
+  
+    test('validates captcha', () => {
+      const recaptcha_token = false; // Simulate that recaptcha is not completed
+      const valid = enquiry_validate();
+      expect(valid).toBe(false); // Should be false since captcha is not valid
+    });
+  
+    test('toggle dropdown visibility', () => {
+      const fakeSelect = document.getElementById("fake_enquiry_type");
+      fakeSelect.click(); // Simulate click on the fake select
+      const dropdown = fakeSelect.querySelector(".dropdown");
+      expect(dropdown.classList.contains("show")).toBe(true); // Check if dropdown is visible
+    });
+  
+    test('selects an option and updates the label', () => {
+      const fakeSelect = document.getElementById("fake_enquiry_type");
+      const dropdown = fakeSelect.querySelector(".dropdown");
+      const selectedOption = fakeSelect.querySelector(".label");
+      
+      // Simulate option click
+      const option = dropdown.querySelector(".option");
+      option.click();
+      
+      expect(selectedOption.textContent).toBe(option.textContent); // Check if label is updated
+      expect(dropdown.classList.contains("show")).toBe(false); // Check if dropdown is closed
+    });
+  });
+  

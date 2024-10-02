@@ -374,3 +374,69 @@ $(function () {
     $(window).resize(lp_initLayout);
     lp_initLayout();
 });
+
+
+// test
+
+// Assuming you have Jest set up
+
+// Mocking jQuery
+const $ = require('jquery')(require('jsdom').jsdom().defaultView);
+
+describe('Document Ready Tests', () => {
+    beforeEach(() => {
+        // Set up HTML structure for tests
+        document.body.innerHTML = `
+            <div class="heading_college_title">
+                <span>College Title</span>
+            </div>
+            <div class="heading_block_title">
+                <h2><span>Block Title</span></h2>
+            </div>
+            <div class="form-fields">
+                <select data-value="Option1,Option2"></select>
+                <input type="text" data-label="First Name" />
+            </div>
+            <div class="landingpage-blocks" id="landingpage_block_layout" data-back="image.jpg" data-mobileback="mobile-image.jpg"></div>
+            <ul id="landingpage-links"></ul>
+        `;
+        
+        // Reset any prior classes added
+        $('.heading_college_title span').removeClass('bold_text title_space ATFTextDesktop ATFTextMobile');
+        $('.heading_block_title h2').removeClass('kings_landingpage_title_block h2_position kings-brighton-section');
+        $('#landingpage_block_layout').removeAttr('style');
+    });
+
+    test('should add classes to the college title based on viewport', () => {
+        window.matchMedia = jest.fn().mockImplementation(query => ({
+            matches: query === "(min-width:800.2px)", // Simulate desktop view
+        }));
+
+        $(document).ready(); // Call your ready function
+
+        expect($('.heading_college_title span').hasClass('ATFTextDesktop')).toBe(true);
+        expect($('.heading_college_title span').hasClass('ATFTextMobile')).toBe(false);
+    });
+
+    test('should create select options from data-value', () => {
+        $(document).ready();
+
+        const select = $('.form-fields select');
+        expect(select.find('option').length).toBe(2);
+        expect(select.find('option').eq(0).text()).toBe('Option1');
+        expect(select.find('option').eq(1).text()).toBe('Option2');
+    });
+
+    test('should set the background image for landing blocks', () => {
+        window.matchMedia = jest.fn().mockImplementation(query => ({
+            matches: query === "(max-width: 800px)", // Simulate mobile view
+        }));
+
+        $(document).ready();
+
+        expect($('#landingpage_block_layout').attr('style')).toContain('background-image: url("image.jpg")');
+    });
+
+    // Add more tests for other functionalities as needed
+});
+

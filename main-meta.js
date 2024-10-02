@@ -116,3 +116,73 @@ menuButton.addEventListener("click", function(e) {
     e.preventDefault();
     menuButton.classList.toggle("close");
 });
+
+
+//  test
+// toggleMegaMenu.test.js
+import './path/to/your/script.js'; // Adjust the path accordingly
+
+describe('toggleMegaMenu Functionality', () => {
+  let megaMenu, navMenu, step, button;
+
+  beforeEach(() => {
+    // Set up the DOM structure required for the test
+    document.body.innerHTML = `
+      <div class="mega-menu">
+        <div class="content" data-menu="menu1"></div>
+        <div class="content" data-menu="menu2"></div>
+      </div>
+      <div class="nav-menu">
+        <div class="crossed_img" data-menu="menu1"></div>
+        <div class="crossed_img" data-menu="menu2"></div>
+      </div>
+      <div class="navigation">
+        <a class="nav-link" href="#">Link</a>
+      </div>
+      <div class="multi-buttons">
+        <button data-menu="menu1">Button 1</button>
+        <button data-menu="menu2">Button 2</button>
+      </div>
+      <div class="step"></div>
+    `;
+
+    megaMenu = document.querySelector('.mega-menu');
+    navMenu = document.querySelector('.nav-menu');
+    button = document.createElement('button');
+    button.setAttribute('data-menu', 'menu1');
+    button.classList.add('active');
+    document.body.appendChild(button);
+  });
+
+  test('should activate the correct menu and update styles', (e) => {
+    // Simulate a click event
+    const event = new Event('click');
+    toggleMegaMenu(button, event);
+
+    // Verify the active content is updated
+    expect(megaMenu.querySelector('.content[data-menu="menu1"]').classList.contains('active')).toBe(true);
+    expect(megaMenu.querySelector('.content[data-menu="menu2"]').classList.contains('active')).toBe(false);
+    
+    // Verify the crossed image is updated
+    expect(navMenu.querySelector('.crossed_img[data-menu="menu1"]').classList.contains('active')).toBe(true);
+    expect(navMenu.querySelector('.crossed_img[data-menu="menu2"]').classList.contains('active')).toBe(false);
+    
+    // Verify other elements
+    expect(button.classList.contains('active')).toBe(true);
+    expect(document.querySelector('.mega-menu').classList.contains('active')).toBe(true);
+    expect(document.body.style.overflowY).toBe('hidden');
+  });
+
+  test('should remove empty menus', () => {
+    // Create an empty menu and call toggleMegaMenu
+    const emptyMenu = document.createElement('div');
+    emptyMenu.classList.add('menus');
+    emptyMenu.innerHTML = ''; // Empty content
+    megaMenu.appendChild(emptyMenu);
+    
+    toggleMegaMenu(button, new Event('click'));
+
+    // Verify that empty menus are removed
+    expect(megaMenu.querySelectorAll('.menus').length).toBe(0);
+  });
+});

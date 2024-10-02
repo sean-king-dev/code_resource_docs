@@ -224,3 +224,68 @@ if(window.matchMedia("(min-width:800px)").matches){
     });
 
 });
+
+
+
+//  test
+
+describe('Dropdown and Background Functionality', () => {
+    beforeEach(() => {
+      // Set up the DOM structure for the tests
+      document.body.innerHTML = `
+        <div class="body--wrapper__bg"></div>
+        <div class="atf--splash__wrapper" style="display: block;"></div>
+        <div id="background-video-container" class="background-video"></div>
+        <div id="dropdown-2" class="dropdown" data-background="test-background.jpg">
+          <div class="dropdown-content-wrapper"></div>
+          <button class="pathways_button" data-bg-image="new-background.jpg"></button>
+        </div>
+      `;
+  
+      // Set up the listener
+      require('./path/to/your/script'); // Adjust path to where your script is located
+    });
+  
+    test('should update background image when dropdown button is clicked', () => {
+      const dropdownButton = document.querySelector('.pathways_button');
+      dropdownButton.click(); // Simulate click
+  
+      const wrapperBg = document.querySelector('.body--wrapper__bg');
+      expect(wrapperBg.style.backgroundImage).toBe('url(new-background.jpg)');
+    });
+  
+    test('should hide video when updated background image is applied', () => {
+      const dropdownButton = document.querySelector('.pathways_button');
+      dropdownButton.click(); // Simulate click
+  
+      const videoContainer = document.querySelector('#background-video-container');
+      expect(videoContainer.style.display).toBe('none');
+    });
+  
+    test('should show splash wrapper when no dropdown is active', () => {
+      const splashWrapper = document.querySelector('.atf--splash__wrapper');
+      expect(splashWrapper.style.display).toBe('block');
+  
+      const dropdown = document.querySelector('#dropdown-2');
+      dropdown.classList.add('active');
+  
+      // Re-run showHideVid function
+      window.showHideVid();
+      expect(splashWrapper.style.display).toBe('none');
+    });
+  
+    test('should toggle purple section on mobile', () => {
+      const dropdown2 = document.querySelector('#dropdown-2');
+      dropdown2.classList.remove('active'); // Start as inactive
+  
+      // Simulate mobile width
+      Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 500 });
+  
+      dropdown2.click(); // Toggle active
+      expect(dropdown2.classList.contains('active')).toBe(true);
+  
+      dropdown2.click(); // Toggle inactive
+      expect(dropdown2.classList.contains('active')).toBe(false);
+    });
+  });
+  

@@ -311,3 +311,88 @@
 
   });
   
+
+
+
+
+//   test
+
+
+// carousel.test.js
+import './path/to/your/carousel.js'; // Adjust the path accordingly
+
+describe('Carousel Functionality', () => {
+  let slides, mainCarouselContainer, thumbCarouselContainer;
+
+  beforeEach(() => {
+    document.body.innerHTML = `
+      <div id="desktopCarouselContainer"></div>
+      <div id="thumbnailCarouselContainer"></div>
+      <div class="main_fade_slide">
+        <div class="main_slide_item" data-link="desktop-link1" style="background-image: url('desktop-bg1.jpg');">
+          <img class="main_img_div" src="desktop-image1.jpg" alt="Desktop Image 1">
+        </div>
+        <div class="mobile_slide_item" data-link="mobile-link1" style="background-image: url('mobile-bg1.jpg');">
+          <img class="mobile_img_div" src="mobile-image1.jpg" alt="Mobile Image 1">
+        </div>
+        <a href="thumb-link1" class="thumb_link">
+          <img src="thumb-image1.jpg" alt="Thumbnail Image 1" title="Thumbnail 1">
+        </a>
+      </div>
+      <div class="main_fade_slide">
+        <div class="main_slide_item" data-link="desktop-link2" style="background-image: url('desktop-bg2.jpg');">
+          <img class="main_img_div" src="desktop-image2.jpg" alt="Desktop Image 2">
+        </div>
+        <div class="mobile_slide_item" data-link="mobile-link2" style="background-image: url('mobile-bg2.jpg');">
+          <img class="mobile_img_div" src="mobile-image2.jpg" alt="Mobile Image 2">
+        </div>
+        <a href="thumb-link2" class="thumb_link">
+          <img src="thumb-image2.jpg" alt="Thumbnail Image 2" title="Thumbnail 2">
+        </a>
+      </div>
+      <button id="prev-btn">Previous</button>
+      <button id="next-btn">Next</button>
+      <div class="locationDots_wrapper"></div>
+    `;
+
+    slides = document.querySelectorAll('.main_fade_slide');
+    mainCarouselContainer = document.getElementById('desktopCarouselContainer');
+    thumbCarouselContainer = document.getElementById('thumbnailCarouselContainer');
+  });
+
+  test('should populate carousels with slides', () => {
+    // Trigger the carousel initialization
+    window.dispatchEvent(new Event('DOMContentLoaded'));
+
+    // Check if the carousels have been populated
+    expect(mainCarouselContainer.children.length).toBe(2); // Adjust according to your expectations
+    expect(thumbCarouselContainer.children.length).toBe(2); // Adjust according to your expectations
+  });
+
+  test('should create location dots correctly', () => {
+    // Trigger the carousel initialization
+    window.dispatchEvent(new Event('DOMContentLoaded'));
+
+    const dots = document.querySelectorAll('.Ldot');
+    expect(dots.length).toBe(slides.length);
+    expect(dots[0].classList.contains('active')).toBe(true); // First dot should be active by default
+  });
+
+  test('should handle carousel navigation', () => {
+    // Trigger the carousel initialization
+    window.dispatchEvent(new Event('DOMContentLoaded'));
+
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    // Simulate clicking the next button
+    nextBtn.click();
+    // Check if the currentIndex has changed
+    expect(currentIndex).toBe(4); // Adjust according to your logic
+
+    // Simulate clicking the previous button
+    prevBtn.click();
+    // Check if the currentIndex has changed
+    expect(currentIndex).toBe(3); // Adjust according to your logic
+  });
+});

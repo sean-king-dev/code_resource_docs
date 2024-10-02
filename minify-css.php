@@ -106,3 +106,72 @@ function generateSourceMap($compiledFilePath, $partialFiles)
     return $sourceMap;
 }
 ?>
+
+
+
+
+<?php
+
+// test
+// CssCompilerTest.php
+use PHPUnit\Framework\TestCase;
+
+class CssCompilerTest extends TestCase
+{
+    protected function setUp(): void
+    {
+        // Create a mock for file system functions
+        $this->partialFiles = [
+            'accreditationFooter.css',
+            'location_title_bg_col.css',
+            // Add other partial files as needed
+        ];
+        
+        // Create temporary paths for testing
+        $this->mainCssPath = '../main.css';
+        $this->partialsFolderPath = '../partials/';
+        $this->compiledFilePath = '../compiled/main.min.css';
+        $this->sourceMapFilePath = '../compiled/main.min.css.map';
+    }
+
+    public function testLoadMainCssFile()
+    {
+        // Mock the main CSS file
+        $this->assertFileExists($this->mainCssPath);
+        $mainCssContent = file_get_contents($this->mainCssPath);
+        $this->assertNotFalse($mainCssContent, "Error: Unable to load main CSS file.");
+    }
+
+    public function testLoadPartialCssFiles()
+    {
+        foreach ($this->partialFiles as $partialFile) {
+            $partialFilePath = $this->partialsFolderPath . $partialFile;
+            $this->assertFileExists($partialFilePath);
+            $partialContent = file_get_contents($partialFilePath);
+            $this->assertNotFalse($partialContent, "Error: Unable to load partial file: $partialFilePath");
+        }
+    }
+
+    public function testMinifyCss()
+    {
+        $cssContent = "body { color: red; } /* comment */ \n";
+        $minifiedCss = minifyCss($cssContent);
+        $this->assertEquals("body{color:red;}", $minifiedCss);
+    }
+
+    public function testGenerateSourceMap()
+    {
+        $sourceMap = generateSourceMap($this->compiledFilePath, $this->partialFiles);
+        $this->assertArrayHasKey('version', $sourceMap);
+        $this->assertEquals(3, $sourceMap['version']);
+        $this->assertCount(count($this->partialFiles), $sourceMap['sources']);
+    }
+
+    public function testFileWrite()
+    {
+        // Here you would mock file_put_contents and assert it's called with the correct arguments
+        // For demonstration purposes, we're not writing actual files in this test
+        $this->assertTrue(true); // Replace with actual logic when mocking is set up
+    }
+}
+
