@@ -1,0 +1,419 @@
+<style>
+
+    .modal-wrapper-layout {
+        margin-top: 5%;
+        height: 50%;
+        width: 100%;    
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .modal-wrapper-layout .dashed-seperator {
+        width: 67%;
+        margin: 0 0 5% -3%;
+        padding: 3% 0 0 0 ;
+    }
+    
+    .modal_field_wrapper {
+        display: flex;
+        width: 70%;
+        margin: 0 auto;
+        padding-top: 5%;
+    }
+    
+    .video-modal-container {
+        width: 33%;
+    }
+    
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    
+    /* Button styling */
+    button#openModalBtn {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: var(--blue);
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        border-radius: 50px;
+        height: 40px;
+    }
+    
+    #openModalBtn:hover {
+        background-color: #3ebde3;
+        cursor: pointer;
+    }
+    
+    .open-modal-btn_hover {
+        cursor: pointer;
+    }
+    
+    button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    /* Modal background styling */
+    .modal-video-popup {
+        display: none;
+        position: fixed; 
+        z-index: 1; 
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%; 
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* Modal content */
+    .modal-content {
+        padding: 2px;
+        border-radius: 5px;
+        text-align: center;
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 0;
+    }
+    
+    .modal-content iframe {
+        width: 70%;
+        height: 80%;
+    }
+    
+    .bg_img_div img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 /  9;
+        object-fit: contain;
+        padding: 1%;
+        padding-right: 10%;
+    }
+    
+    .section_name p {
+        font-family: "Raleway", sans-serif;
+        font-size: 1.375rem;
+        font-weight: 800;
+        color: var(--raspberry);
+        margin: 4% 0;
+        width: 90%; 
+    }
+    
+    /* Close button */
+    .close {
+        font-size: 3rem;
+        cursor: pointer;
+        font-weight: bold;
+        color: white;
+        border: 2px solid white;
+        border-radius: 50px;
+        position: absolute;
+        right: 10%;
+        height: 50px;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .close:hover {
+        color: white;
+    }
+    
+    /* css close button */
+    .close-button {
+      position: absolute;
+      right: 10%;
+      width: 60px;
+      height: 60px;
+      border: 3px solid #fff; 
+      border-radius: 50%;       
+      background-color: transparent; 
+      cursor: pointer;
+    }
+    
+    .close-button::before,
+    .close-button::after {
+      content: '';
+      position: absolute;
+      width: 60%; 
+      height: 3px;
+      background-color: #fff;
+      top: 50%;
+      left: 50%;
+      transform-origin: center;
+    }
+    
+    .close-button::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    
+    .close-button::after {
+      transform: translate(-50%, -50%) rotate(-45deg); 
+    }
+    
+    #myModal {
+        z-index: 100;
+    }
+    
+    /* mobiles */
+    @media screen and (max-width:800px) {
+    
+        .bg_img_div img {
+            padding-right: 0%;
+       }
+    
+        .modal-wrapper-layout {
+            margin-top: 10%;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            min-height: 100%;
+            overflow: visible;
+        }
+    
+        .modal_field_wrapper {
+            margin-top: 10%;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin: 0 auto;
+            margin-bottom: 20%;
+            overflow-x: auto;
+        }
+    
+        .title-top-row {
+            z-index: 20000;
+        }
+    
+        .video-modal-container {
+            width: 94%;
+            margin: 0 auto;
+            margin-bottom: 15%;
+            height: auto;
+        }
+    
+        .modal-content iframe {
+            min-width: unset;
+            min-height: unset;
+            width: 90% !important;
+            height: 33% !important;
+            margin: 0 auto;
+        }
+    
+        button#openModalBtn {
+            margin-left: 2%;
+            font-size: .88rem;
+        }
+    
+        .close-button {
+            position: absolute;
+            right: unset;
+            width: 60px;
+            height: 60px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            background-color: transparent;
+            cursor: pointer;
+            bottom: 20%;
+        }
+    
+        .section_name p {
+            font-size: 1.1rem;
+            margin: 5% 0 10% 2%;
+    
+        }
+    
+    }
+    
+    /* mobile landscape orientation */
+    @media screen and (max-width:800px) and (orientation: landscape){
+    
+        .video-modal-container {
+            height: 60%;
+        }
+    
+        .section_name p {
+            font-size: 1.7rem;
+            margin: 2%;
+        }
+    
+        button#openModalBtn {
+            font-size: 1rem;
+            width: 30%;
+            height: 50px;
+        }
+    
+        /* video style */
+        .modal-content iframe#videoIframe {
+            height: 100% !important;
+            width: auto;
+        }
+    
+        .modal-content .close-button {
+            position: absolute;
+            right: 0;
+            top: 42.5%;
+        }
+    
+        nav.navigation.local_menu.scrolled {
+            display: none;
+        }
+    }
+    
+    /* iphone 15 pro max mobile view */
+    /* Targeting both iPhone 15 and iPhone 15 Pro in landscape mode */
+    
+    /* @media only screen and (min-width: 840px) and (max-width: 940px) and (orientation: landscape) {
+    
+        .modal-wrapper-layout {
+            border: 1px solid lime;
+        }
+    
+        .modal_field_wrapper {
+            display: flex;
+            flex-direction: column;
+            border: 2px solid orange;
+            width: 90%;
+        }
+    
+        .video-modal-container{
+            width: 100%;
+            margin: 0 auto;
+        }
+    
+        .title-top-row .three-list .three-list-item {
+            width: 100%;
+            margin: 0 auto;
+            height: auto;
+            border: 1px solid red;
+        }
+    
+        .title-top-inner .three-list {
+            border: 2px solid purple;
+            display: flex;
+            flex-direction: column;
+        }
+    } */
+    
+    @media only screen and (min-width: 810px) and (max-width: 940px) and (orientation: landscape) {
+    
+        nav.navigation.local_menu.scrolled,
+        nav.navigation.local_menu.scrolled.no-transition {
+            display: none;
+        }
+    
+        .modal-wrapper-layout {
+            margin-top: 10%;
+            /* border: 2px solid purple; */
+            min-height: 100%;
+            height: auto;
+        }
+    
+        .modal_field_wrapper {
+            /* border: 2px solid orange; */
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+    
+        .video-modal-container {
+            /* border: 2px solid green; */
+            width: 90%;
+            margin: 0 auto;
+    
+        }
+    
+        .title-top-inner .three-list {
+            /* border: 1px solid lime; */
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .title-top-inner .three-list .three-list-item {
+            /* border: 1px solid red; */
+            width: 100%;
+        }
+    
+        button#openModalBtn {
+            margin-bottom: 10%;
+        }
+    
+    }
+    
+    </style>
+    
+    <script>
+    
+    //  v2 so you can click on image and section title as well as button to fire the video modal
+    document.addEventListener("DOMContentLoaded", function() {
+        const modals = document.querySelectorAll('.modal-video-popup');
+        const openModalBtns = document.querySelectorAll('.open-modal-btn');
+        const bgImgDivs = document.querySelectorAll('.bg_img_div');
+        const sectionNames = document.querySelectorAll('.section_name');
+        const closeXBtns = document.querySelectorAll('.close-button');
+    
+        openModalBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                modals[index].style.display = 'block';
+            });
+        });
+    
+        bgImgDivs.forEach((bgDiv, index) => {
+            bgDiv.addEventListener('click', () => {
+                modals[index].style.display = 'block';
+            });
+        });
+    
+        sectionNames.forEach((sectionName, index) => {
+            sectionName.addEventListener('click', () => {
+                modals[index].style.display = 'block';
+            });
+        });
+    
+        closeXBtns.forEach((closeBtn, index) => {
+            closeBtn.addEventListener('click', () => {
+                modals[index].style.display = 'none';
+            });
+        });
+    
+        // Close the modal when clicking outside of the modal content
+        window.addEventListener('click', (e) => {
+            modals.forEach((modal) => {
+                if (e.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    
+    
+        function hideIOSBarsInLandscape() {
+            if (window.matchMedia("(orientation: landscape)").matches && screen.width < 800) {
+                window.scrollTo(0, 1);
+            }
+        }
+    
+        window.addEventListener("load", hideIOSBarsInLandscape);
+    
+        window.addEventListener("orientationchange", hideIOSBarsInLandscape);
+        });
+    
+    
+    </script>
+    
